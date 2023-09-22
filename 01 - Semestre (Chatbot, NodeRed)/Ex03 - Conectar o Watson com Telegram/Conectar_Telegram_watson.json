@@ -1,0 +1,262 @@
+[
+    {
+        "id": "22f10bdfae5086be",
+        "type": "tab",
+        "label": "Conectar_Telegram_Watson",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ea657598966a4a00",
+        "type": "telegram receiver",
+        "z": "22f10bdfae5086be",
+        "name": "",
+        "bot": "8726a2401c8843c5",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 130,
+        "y": 360,
+        "wires": [
+            [
+                "c2e80589464eb9e0",
+                "2969fd12cec5bcae"
+            ],
+            [
+                "2142a6c726f4348b"
+            ]
+        ]
+    },
+    {
+        "id": "c2e80589464eb9e0",
+        "type": "debug",
+        "z": "22f10bdfae5086be",
+        "name": "Entrada no Telegram",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 400,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "045cea73901874d9",
+        "type": "telegram sender",
+        "z": "22f10bdfae5086be",
+        "name": "",
+        "bot": "8726a2401c8843c5",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 970,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "99ffa7bb9448cedb",
+        "type": "watson-assistant-v2",
+        "z": "22f10bdfae5086be",
+        "name": "WA Escola Primária",
+        "service-endpoint": "",
+        "assistant_id": "95b9abf6-b2b4-49b3-b94d-c58dfc9cf56b",
+        "debug": false,
+        "restart": false,
+        "return_context": true,
+        "alternate_intents": false,
+        "multisession": true,
+        "timeout": "",
+        "optout-learning": false,
+        "persist-session-id": false,
+        "x": 550,
+        "y": 360,
+        "wires": [
+            [
+                "d7cef9416fcc31a0",
+                "ac4b753622e1d455"
+            ]
+        ]
+    },
+    {
+        "id": "d7cef9416fcc31a0",
+        "type": "debug",
+        "z": "22f10bdfae5086be",
+        "name": "resposta para o telegram",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "82a58cf2cab9a4fc",
+        "type": "function",
+        "z": "22f10bdfae5086be",
+        "name": "proc Entrada",
+        "func": "msg.params ={\n    \"session_id \": msg.payload.session_id !== 'undefined' ? msg.payload.session_id : \"\"\n};\nmsg.chatId = msg.payload.chatId;\nmsg.payload = msg.payload.content;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 210,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "baf51ab114a2fb45",
+        "type": "function",
+        "z": "22f10bdfae5086be",
+        "name": "function 5",
+        "func": "msg.payload = {\n    chatId : msg.chatId,\n    type : \"message\",\n    content : msg.payload.output.generic[0].text\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2969fd12cec5bcae",
+        "type": "change",
+        "z": "22f10bdfae5086be",
+        "name": "Prepara Entrada",
+        "rules": [
+            {
+                "t": "set",
+                "p": "params.session_id",
+                "pt": "msg",
+                "to": "payload.chaId",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "chatId",
+                "pt": "msg",
+                "to": "payload.chatId",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.content",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 360,
+        "wires": [
+            [
+                "99ffa7bb9448cedb"
+            ]
+        ]
+    },
+    {
+        "id": "ac4b753622e1d455",
+        "type": "change",
+        "z": "22f10bdfae5086be",
+        "name": "Prepara Retorno",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.chatId",
+                "pt": "msg",
+                "to": "chatId",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.type",
+                "pt": "msg",
+                "to": "message",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload.content",
+                "pt": "msg",
+                "to": "payload.output.generic[0].text",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 360,
+        "wires": [
+            [
+                "045cea73901874d9"
+            ]
+        ]
+    },
+    {
+        "id": "2142a6c726f4348b",
+        "type": "function",
+        "z": "22f10bdfae5086be",
+        "name": "Acesso não autorizado",
+        "func": "msg.payload.content = \"Você não é um usuário autorizado\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 480,
+        "wires": [
+            [
+                "045cea73901874d9"
+            ]
+        ]
+    },
+    {
+        "id": "8726a2401c8843c5",
+        "type": "telegram bot",
+        "botname": "@jardimfiap001_bot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    }
+]

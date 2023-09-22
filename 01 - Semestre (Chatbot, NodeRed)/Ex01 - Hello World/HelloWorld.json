@@ -1,0 +1,56 @@
+[
+    {
+        "id": "b9d9c8ebeae6c62c",
+        "type": "tab",
+        "label": "Watson",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "1ed59b49d23f9153",
+        "type": "inject",
+        "z": "b9d9c8ebeae6c62c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Hello World",
+        "payloadType": "str",
+        "x": 190,
+        "y": 120,
+        "wires": [
+            [
+                "96dd10c2a09bbdf0"
+            ]
+        ]
+    },
+    {
+        "id": "96dd10c2a09bbdf0",
+        "type": "debug",
+        "z": "b9d9c8ebeae6c62c",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 180,
+        "wires": []
+    }
+]

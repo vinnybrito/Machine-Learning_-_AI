@@ -1,0 +1,75 @@
+[
+    {
+        "id": "b9d9c8ebeae6c62c",
+        "type": "tab",
+        "label": "Watson",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "1ed59b49d23f9153",
+        "type": "inject",
+        "z": "b9d9c8ebeae6c62c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Hello World",
+        "payloadType": "str",
+        "x": 150,
+        "y": 120,
+        "wires": [
+            [
+                "20db1bb7503a76ca"
+            ]
+        ]
+    },
+    {
+        "id": "96dd10c2a09bbdf0",
+        "type": "debug",
+        "z": "b9d9c8ebeae6c62c",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "20db1bb7503a76ca",
+        "type": "function",
+        "z": "b9d9c8ebeae6c62c",
+        "name": "function 2",
+        "func": "var dateNow = new Date();\nvar timeAsString = dateNow.toLocaleTimeString();\n\nmsg.payload = msg.payload +\n                ' A hora é ' +\n                timeAsString + '.';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 200,
+        "wires": [
+            [
+                "96dd10c2a09bbdf0"
+            ]
+        ]
+    }
+]
